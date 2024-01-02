@@ -1,14 +1,10 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import '../song_tile.dart';
-
 
 class SongListing extends StatefulWidget {
-  const SongListing({super.key, required this.audioQuery, required this.audioPlayer});
+  const SongListing({super.key, required this.audioQuery});
   final OnAudioQuery audioQuery;
-  final AudioPlayer audioPlayer;
   @override
   State<SongListing> createState() => _SongListingState();
 }
@@ -44,10 +40,23 @@ class _SongListingState extends State<SongListing> {
           itemCount: item.data!.length,
           itemBuilder: (context, index) {
             // print(item.data![index].data );
-            return SongTile(song: item.data![index], audioPlayer: widget.audioPlayer);
+            return _listTile(item.data![index]);
           },
         );
       },
     );
   }
+
+  Widget _listTile(SongModel song) => Card(
+    child: ListTile(
+      title: Text(song.title),
+      subtitle:
+      Text(song.artist ?? "No Artist"),
+      trailing: Icon( Icons.menu),
+
+      onTap: () {
+      },
+    ),
+  );
+
 }

@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:music_runner/views/navigation_items/direcory_listing.dart';
+import 'package:music_runner/views/navigation_items/directory_listing.dart';
 import 'package:music_runner/views/navigation_items/song_listing.dart';
-import 'package:music_runner/views/song_tile.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +16,10 @@ class _HomePageState extends State<HomePage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool _hasPermission = false;
   int _selectedIndex = 0;
+
+
+
+
 
   static const List<BottomNavigationBarItem> _bottomBarItems = [
     BottomNavigationBarItem(
@@ -39,9 +41,9 @@ class _HomePageState extends State<HomePage> {
     Text("Memory")
   ];
   List<Widget> options() => [
-    SongListing(audioQuery: _audioQuery, audioPlayer: _audioPlayer),
+    SongListing(audioQuery: _audioQuery),
+    Placeholder(),
     DirectoryListing(audioQuery: _audioQuery, audioPlayer: _audioPlayer),
-    Placeholder()
   ];
 
   _onItemTapped(int index) {
@@ -55,7 +57,6 @@ class _HomePageState extends State<HomePage> {
       retryRequest: retry,
     );
     _hasPermission ? setState(() {}) : null;
-    // print(await _audioQuery.queryAllPath());
   }
 
   @override
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _hasNoPermission() {
-    return Container(
+    return SizedBox(
       width: 200,
       height: 200,
       child: const Text("App doesnt have permission to your storage."),

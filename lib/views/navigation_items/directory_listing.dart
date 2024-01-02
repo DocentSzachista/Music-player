@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:music_runner/views/songs_folder.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class DirectoryListing extends StatefulWidget {
@@ -47,6 +48,14 @@ class _DirectoryListingState extends State<DirectoryListing> {
               title: Text(path.substring(path.indexOf("0") + 2)),
               subtitle:
                   Text(path.length > 40 ? "${path.substring(0, 40)}..." : path),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SongsInFolderListing(
+                            directory: dirs[index],
+                            basename: dirs[index].split("/").last)));
+              },
             );
           },
         );

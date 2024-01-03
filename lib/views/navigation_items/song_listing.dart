@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_runner/views/music_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 
@@ -55,6 +56,7 @@ class _SongListingState extends State<SongListing> {
       trailing: Icon( Icons.menu),
 
       onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MusicPlayer(song: song)));
       },
     ),
   );

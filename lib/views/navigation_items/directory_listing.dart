@@ -1,5 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_runner/views/songs_folder.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

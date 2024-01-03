@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_runner/views/music_player.dart';
+import 'package:music_runner/views/music_player/music_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 
@@ -53,7 +53,7 @@ class _SongListingState extends State<SongListing> {
       title: Text(song.title),
       subtitle:
       Text(song.artist ?? "No Artist"),
-      trailing: Icon( Icons.menu),
+      trailing: const Icon( Icons.menu),
 
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => MusicPlayer(song: song)));

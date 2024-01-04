@@ -3,13 +3,15 @@ import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:music_runner/views/music_player/player_controls.dart';
 import 'package:music_runner/views/music_player/position_data.dart';
+import 'package:music_runner/views/music_player/song_metadata.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({super.key, required this.song});
+  const MusicPlayer({super.key, required this.song, required this.playlist});
 
   final SongModel song;
+  final List<AudioSource> playlist;
   @override
   State<MusicPlayer> createState() => _MusicPlayerState();
 }
@@ -31,10 +33,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
     super.initState();
     audioPlayer = AudioPlayer();
     // audioPlayer.setFilePath((widget.song.data));
-    playlist = ConcatenatingAudioSource(children:
-    [
-      AudioSource.file(widget.song.data)
-    ]);
+    playlist = ConcatenatingAudioSource(children: widget.playlist);
     _init();
   }
   Future<void> _init() async{
@@ -66,24 +65,14 @@ class _MusicPlayerState extends State<MusicPlayer> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 300,
-                  height: 300,
-                  color: Colors.red,
-                ),
-               const  SizedBox(
-                  width: 10,
-                  height: 10,
-                ),
-                Text(
-                  widget.song.title,
-                  style: const TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  widget.song.artist != null ? widget.song.artist! : "Unknown",
-                  style: const TextStyle(fontSize: 16),
-                ),
+                StreamBuilder(stream: audioPlayer.sequenceStateStream, builder: (context, snapshot){
+                  final state = snapshot.data;
+                  if(state?.sequence.isEmpty ?? true){
+                    return const SizedBox();
+                  }
+                  final SongModel metadata = state!.currentSource!.tag;
+                  return SongMetadata(title: metadata.title, artist: metadata.artist);
+                }),
                 StreamBuilder(
                     stream: _positionDataStream,
                     builder: (context, snapshot) {

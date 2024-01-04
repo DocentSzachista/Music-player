@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_runner/views/music_player/music_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -11,6 +12,10 @@ class SongListing extends StatefulWidget {
 }
 
 class _SongListingState extends State<SongListing> {
+
+  List<AudioSource> _audioSources = [];
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SongModel>>(
@@ -36,12 +41,13 @@ class _SongListingState extends State<SongListing> {
         if (item.data!.isEmpty) return const Text("Nothing found!");
 
         // You can use [item.data!] direct or you can create a:
-        // List<SongModel> songs = item.data!;
+        List<SongModel> songs = item.data!;
+        _audioSources = songs.map((song) => AudioSource.file(song.data, tag: song)).toList();
         return ListView.builder(
-          itemCount: item.data!.length,
+          itemCount: songs.length,
           itemBuilder: (context, index) {
             // print(item.data![index].data );
-            return _listTile(item.data![index]);
+            return _listTile(songs[index]);
           },
         );
       },
@@ -56,7 +62,7 @@ class _SongListingState extends State<SongListing> {
       trailing: const Icon( Icons.menu),
 
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MusicPlayer(song: song)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MusicPlayer(song: song, playlist: _audioSources,)));
       },
     ),
   );

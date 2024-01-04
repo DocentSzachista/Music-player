@@ -54,6 +54,7 @@ class _DirectoryListingState extends State<DirectoryListing> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => SongsInFolderListing(
+                            audioQuery: widget.audioQuery,
                             directory: dirs[index],
                             basename: dirs[index].split("/").last)));
               },

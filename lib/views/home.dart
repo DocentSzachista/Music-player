@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_runner/views/navigation_items/directory_listing.dart';
+import 'package:music_runner/views/navigation_items/playlist_listing.dart';
 import 'package:music_runner/views/navigation_items/song_listing.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   ];
   List<Widget> options() => [
     SongListing(audioQuery: _audioQuery),
-    Placeholder(),
+    PlayListListing(audioQuery: _audioQuery),
     DirectoryListing(audioQuery: _audioQuery, audioPlayer: _audioPlayer),
   ];
 
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: headers.elementAt(_selectedIndex),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomBarItems,

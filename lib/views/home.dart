@@ -67,10 +67,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _hasNoPermission() {
-    return SizedBox(
+    return const SizedBox(
       width: 200,
       height: 200,
-      child: const Text("App doesnt have permission to your storage."),
+      child: Text("App doesnt have permission to your storage."),
     );
   }
 

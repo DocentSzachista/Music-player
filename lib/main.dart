@@ -8,23 +8,32 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
 
-  const MainApp({super.key});
-
+  MainApp({super.key});
+  final lightTheme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent,
+        brightness: Brightness.light
+    ),
+    useMaterial3: true,
+  );
+  final darkTheme =ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent,
+        brightness: Brightness.dark
+    ),
+    useMaterial3: true,
+  );
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Music runner',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const HomePage(),
     );
   }

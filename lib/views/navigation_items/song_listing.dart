@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_runner/views/common_song_list_tile.dart';
 import 'package:music_runner/views/dialogs/create_playlist_dialog.dart';
-import 'package:music_runner/views/music_player/music_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SongListing extends StatefulWidget {
@@ -42,7 +42,7 @@ class _SongListingState extends State<SongListing> {
         // You can use [item.data!] direct or you can create a:
         List<SongModel> songs = item.data!;
         _audioSources = songs
-            .map((song) => AudioSource.file(song.data, tag: song))
+            .map((song) => AudioSource.file(song.data, tag: MediaItem(id: "${song.id}", title: song.title, album: song.album, genre: song.genre)))
             .toList();
         return ListView.builder(
           itemCount: songs.length,
@@ -132,17 +132,5 @@ class _SongListingState extends State<SongListing> {
             ],
           );
         });
-  }
-
-  List<AudioSource> _moveObjectsByIndexToEnd(
-      List<AudioSource> objectsList, int index) {
-    if (index >= 0 && index < objectsList.length) {
-      List<AudioSource> temp = List.of(objectsList);
-      List<AudioSource> tempList = temp.sublist(0, index);
-      temp.removeRange(0, index);
-      temp.addAll(tempList);
-      return temp;
-    }
-    return objectsList;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_runner/views/music_player/player_controls.dart';
 import 'package:music_runner/views/music_player/position_data.dart';
 import 'package:music_runner/views/music_player/song_metadata.dart';
@@ -70,7 +71,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   if(state?.sequence.isEmpty ?? true){
                     return const SizedBox();
                   }
-                  final SongModel metadata = state!.currentSource!.tag;
+                  final MediaItem metadata = state!.currentSource!.tag;
                   return SongMetadata(title: metadata.title, artist: metadata.artist);
                 }),
                 StreamBuilder(

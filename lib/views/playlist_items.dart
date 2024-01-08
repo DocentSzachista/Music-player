@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_runner/views/common_song_list_tile.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -34,7 +35,7 @@ class _PlayListItemsState extends State<PlayListItems> {
 
             List<SongModel> songs = snapshot.data!;
             audioSources = songs
-                .map((song) => AudioSource.file(song.data, tag: song))
+                .map((song) => AudioSource.file(song.data, tag: MediaItem(id: "${song.id}", title: song.title, album: song.album, genre: song.genre)))
                 .toList();
             return ListView.builder(
                 itemCount: songs.length,

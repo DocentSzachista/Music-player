@@ -6,6 +6,7 @@ just my app to listen music on my phone without ads
 - [ ] Listen to music in given directory in memory
 - [ ] Searchbar in music listing
 - [ ] Better UI
+- [ ] Dark / light mode
 ## DONE:
 - Listen to music in background
 - List all songs on device

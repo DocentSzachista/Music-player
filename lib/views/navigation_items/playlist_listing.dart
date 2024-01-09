@@ -38,21 +38,26 @@ class _PlayListListingState extends State<PlayListListing> {
           if (item.data!.isEmpty) return const Text("Nothing found!");
 
           List<PlaylistModel> songs = item.data!;
-          return ListView.builder(
+          return ListView.separated(
             itemCount: songs.length,
+            // shrinkWrap: ,
             itemBuilder: (context, index) {
               return _listTile(songs[index]);
             },
+            separatorBuilder: (context, index) => SizedBox(
+              height: 4,
+            ),
           );
         },
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          showDialog(context: context, builder: (context){
-            return CreatePlaylistDialog(audioQuery: widget.audioQuery);
-          }).whenComplete(() {
-            setState(() {
-            });
+          showDialog(
+              context: context,
+              builder: (context) {
+                return CreatePlaylistDialog(audioQuery: widget.audioQuery);
+              }).whenComplete(() {
+            setState(() {});
           });
         },
         child: const Icon(Icons.add),
@@ -60,12 +65,15 @@ class _PlayListListingState extends State<PlayListListing> {
     );
   }
 
-  Widget _listTile(PlaylistModel playlist) => Card(
-        child: ListTile(
-          title: Text(playlist.playlist),
-          subtitle: Text("Number of songs ${playlist.numOfSongs}"),
+  Widget _listTile(PlaylistModel playlist) =>Card(
+            child:   Container(
+              height: 90,
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child:  ListTile(
+          title: Text(playlist.playlist, style: Theme.of(context).textTheme.headlineMedium,),
+          subtitle: Text("Number of songs ${playlist.numOfSongs}", style: Theme.of(context).textTheme.labelLarge,),
           trailing: IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete, size: 36,),
             onPressed: () {
               _showRemoveDialog(playlist);
             },
@@ -80,14 +88,15 @@ class _PlayListListingState extends State<PlayListListing> {
                         )));
           },
         ),
-      );
+      ));
 
   void _showRemoveDialog(PlaylistModel model) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Text("Are you sure you want to delete ${model.playlist}"),
+            content: Text("Are you sure you want to delete '${model.playlist}'", style: const TextStyle(fontSize: 18),),
+            actionsAlignment: MainAxisAlignment.spaceAround,
             actions: [
               MaterialButton(
                   onPressed: () async {

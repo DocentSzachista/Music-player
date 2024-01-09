@@ -15,6 +15,11 @@ class SongListing extends StatefulWidget {
 class _SongListingState extends State<SongListing> {
   List<AudioSource> _audioSources = [];
   int _selectedValue = -1;
+
+  final RoundedRectangleBorder _buttonShape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15),
+  );
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SongModel>>(
@@ -42,7 +47,12 @@ class _SongListingState extends State<SongListing> {
         // You can use [item.data!] direct or you can create a:
         List<SongModel> songs = item.data!;
         _audioSources = songs
-            .map((song) => AudioSource.file(song.data, tag: MediaItem(id: "${song.id}", title: song.title, album: song.album, genre: song.genre)))
+            .map((song) => AudioSource.file(song.data,
+                tag: MediaItem(
+                    id: "${song.id}",
+                    title: song.title,
+                    album: song.album,
+                    genre: song.genre)))
             .toList();
         return ListView.builder(
           itemCount: songs.length,
@@ -85,16 +95,34 @@ class _SongListingState extends State<SongListing> {
                   return const CircularProgressIndicator();
                 }
                 if (snapshot.data!.isEmpty) {
-                  return MaterialButton(onPressed: (){
+                  return MaterialButton(onPressed: () {
                     Navigator.of(context).pop();
-                    showDialog(context: context, builder: (context){
-                      return CreatePlaylistDialog(audioQuery: widget.audioQuery,);
-                    }).whenComplete((){ setState(() {
-                      _showPlaylistsDialog(songId);
-                    });});
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CreatePlaylistDialog(
+                            audioQuery: widget.audioQuery,
+                          );
+                        }).whenComplete(() {
+                      setState(() {
+                        _showPlaylistsDialog(songId);
+                      });
+                    });
                   });
                 }
+                final values = snapshot.data!
+                    .map((playlist) => DropdownMenuItem(
+                    value: playlist.id, child: Text(playlist.playlist))
+                ).toList();
+
                 _selectedValue = snapshot.data!.first.id;
+                return DropdownButtonFormField<int>(
+                    value:  _selectedValue,
+                    items: values,
+
+                     onChanged: (value) {
+                       _selectedValue = value!;
+                     });
                 return DropdownMenu<int>(
                     width: 250,
                     initialSelection: snapshot.data!.first.id,
@@ -107,6 +135,7 @@ class _SongListingState extends State<SongListing> {
                         .toList());
               },
             ),
+            actionsAlignment: MainAxisAlignment.spaceAround,
             actions: [
               MaterialButton(
                   onPressed: () async {
@@ -118,6 +147,7 @@ class _SongListingState extends State<SongListing> {
                       });
                     }
                   },
+                  shape: _buttonShape,
                   color: Theme.of(context).canvasColor,
                   child: const Text("Add")),
               MaterialButton(
@@ -126,6 +156,7 @@ class _SongListingState extends State<SongListing> {
                     Navigator.pop(context);
                   });
                 },
+                shape: _buttonShape,
                 color: Theme.of(context).canvasColor,
                 child: const Text("Cancel"),
               )

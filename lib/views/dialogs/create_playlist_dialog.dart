@@ -11,6 +11,11 @@ class CreatePlaylistDialog extends StatefulWidget {
 class _CreatePlaylistDialogState extends State<CreatePlaylistDialog> {
   final TextEditingController _textFieldController = TextEditingController();
 
+  final RoundedRectangleBorder _buttonShape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15),
+  );
+
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -21,6 +26,7 @@ class _CreatePlaylistDialogState extends State<CreatePlaylistDialog> {
         decoration:
         const InputDecoration(hintText: "Your new playlist name"),
       ),
+      actionsAlignment: MainAxisAlignment.spaceAround,
       actions: [
         MaterialButton(
             onPressed: () async {
@@ -34,6 +40,7 @@ class _CreatePlaylistDialogState extends State<CreatePlaylistDialog> {
               }
             },
             color: Theme.of(context).canvasColor,
+            shape: _buttonShape,
             child: const Text("Create")),
         MaterialButton(
           onPressed: () {
@@ -41,6 +48,7 @@ class _CreatePlaylistDialogState extends State<CreatePlaylistDialog> {
               Navigator.pop(context);
             });
           },
+          shape: _buttonShape,
           color: Theme.of(context).canvasColor,
           child: const Text("Cancel"),
         )

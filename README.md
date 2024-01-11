@@ -1,4 +1,4 @@
-# music_runner
+# Music player 
 
 just my app to listen music on my phone without ads
 

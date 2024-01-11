@@ -40,7 +40,20 @@ class _PlayListItemsState extends State<PlayListItems> {
             return ListView.builder(
                 itemCount: songs.length,
                 itemBuilder: (context, index){
-                  return CommonSongListTile(song: songs[index], audioSources: audioSources, index: index);
+                  return CommonSongListTile(song: songs[index], audioSources: audioSources, index: index, trailing:
+                    IconButton(
+                      icon: const Icon(Icons.delete, size: 24,),
+                      onPressed: () async {
+                        final removed = await widget.audioQuery.removeFromPlaylist(widget.model.id, songs[index].id);
+                        // _showRemoveDialog(playlist);
+                        print(removed);
+                        if(removed) {
+                          setState(() {});
+                        }
+                      },
+                    ),
+
+                    );
                 });
 
           },

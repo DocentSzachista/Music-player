@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_runner/views/dialogs/create_playlist_dialog.dart';
+import 'package:music_runner/views/dialogs/textfield_dialog.dart';
 import 'package:music_runner/views/music_player/music_player.dart';
 import 'package:music_runner/views/playlist_items.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -44,7 +44,7 @@ class _PlayListListingState extends State<PlayListListing> {
             itemBuilder: (context, index) {
               return _listTile(songs[index]);
             },
-            separatorBuilder: (context, index) => SizedBox(
+            separatorBuilder: (context, index) => const SizedBox(
               height: 4,
             ),
           );
@@ -55,7 +55,7 @@ class _PlayListListingState extends State<PlayListListing> {
           showDialog(
               context: context,
               builder: (context) {
-                return CreatePlaylistDialog(audioQuery: widget.audioQuery);
+                return AlertDialogWithTextField(audioQuery: widget.audioQuery);
               }).whenComplete(() {
             setState(() {});
           });
@@ -72,12 +72,23 @@ class _PlayListListingState extends State<PlayListListing> {
               child:  ListTile(
           title: Text(playlist.playlist, style: Theme.of(context).textTheme.headlineMedium,),
           subtitle: Text("Number of songs ${playlist.numOfSongs}", style: Theme.of(context).textTheme.labelLarge,),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete, size: 36,),
-            onPressed: () {
+          trailing: PopupMenuButton(itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+                          child: Text("Edit")),
+            PopupMenuItem(
+                value: 2,
+                child: Text("Remove playlist")),
+          ],
+          onSelected: (value){
+            if (value == 1){
+              showDialog(context: context, builder: (context) =>AlertDialogWithTextField(audioQuery:  widget.audioQuery, playlistModel: playlist,) );
+            }
+            if (value == 2){
               _showRemoveDialog(playlist);
-            },
-          ),
+            }
+
+          },),
           onTap: () {
             Navigator.push(
                 context,

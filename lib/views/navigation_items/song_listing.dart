@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_runner/views/common_song_list_tile.dart';
-import 'package:music_runner/views/dialogs/create_playlist_dialog.dart';
+import 'package:music_runner/views/dialogs/textfield_dialog.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SongListing extends StatefulWidget {
@@ -95,12 +95,15 @@ class _SongListingState extends State<SongListing> {
                   return const CircularProgressIndicator();
                 }
                 if (snapshot.data!.isEmpty) {
-                  return MaterialButton(onPressed: () {
+                  return MaterialButton(
+                      child: Text("Create new playlist"),
+                      color: Theme.of(context).canvasColor,
+                      onPressed: () {
                     Navigator.of(context).pop();
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return CreatePlaylistDialog(
+                          return AlertDialogWithTextField(
                             audioQuery: widget.audioQuery,
                           );
                         }).whenComplete(() {
